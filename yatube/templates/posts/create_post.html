@@ -34,7 +34,7 @@
               {% endfor %}
           {% endif %}
           
-          <form method="post" href="{% url 'posts:post_create' %}">
+          <form method="post" href="{% url 'posts:post_create' %}" enctype="multipart/form-data">
             {% csrf_token %} 
             <div class="form-group row my-3 p-3">
               <label for="id_text">
@@ -54,6 +54,15 @@
                {{ form.group }}
               <small id="id_group-help" class="form-text text-muted">
                 {{ form.group.help_text|safe }}
+              </small>
+            </div>
+            <div class="form-group row my-3 p-3">
+              <label for="id_image">
+                {{ form.image.label }}                
+              </label>
+               {{ form.image }}
+              <small id="id_image-help" class="form-text text-muted">
+                {{ form.image.help_text|safe }}
               </small>
             </div>
             <div class="d-flex justify-content-end">
