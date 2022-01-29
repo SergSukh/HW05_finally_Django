@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+  {% load thumbnail %}
+  {% block title %} 
+  Профайл пользователя {{ author.get_full_name }}
+  {% endblock title %}
+
+  {% block content %}   
+    <div class="container py-5">        
+      <h1>Все посты пользователя {{ author.get_full_name }}</h1>
+      <h3>Всего постов: {{ post_count }}</h3>
+      {% if page_obj.has_other_pages %}
+        {% include 'posts/includes/paginator.html' %}
+      {% endif %}
+
+      <article class='row'>
+        <aside class="col-12 col-md-3">
+          <p>Автор: {{ author.get_full_name }}</p>
+          <a href="{% url 'posts:profile' author %}">все посты пользователя</a>
+        </aside>
+        <div class='col-9'>
+          {% for post in page_obj %}
+            <ul>
+              <li>
+                Дата публикации: {{ post.pub_date|date:"d E Y" }}
+              </li>
+            </ul>
+            {% thumbnail post.image "100x100" crop="center" upscale=True as im %}
+            <img class="card-img my-2" src="{{ im.url }}">
+            {% endthumbnail %}
+            <p>{{ post.text }}</p>
+            <div class="link-iteams">
+              <a class="dow" href="{% url 'posts:post_detail' post.pk %}"><b>Подробная информация</b></a>
+              {% if post.group %}
+                <a class="dow" href="{% url 'posts:group_post' post.group %}"> Все записи группы: {{ post.group }}</a>
+              {% endif %}
+            </div>
+            {% if not forloop.last %}<hr>{% endif %}
+          {% endfor %}
+        </div>
+      </article>
+
+      {% if page_obj.has_other_pages %}
+        {% include 'posts/includes/paginator.html' %}
+      {% endif %}
+      </div>
+{% endblock %} 
