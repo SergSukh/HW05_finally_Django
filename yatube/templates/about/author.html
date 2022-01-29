@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Об авторе проекта{% endblock %}
+{% block content %}
+  <div class="container">
+    <h1 class="h1">Привет, я автор</h1>
+    
+    <!--it's block about me-->
+    <div class="main">
+      <ul class="main-row">
+        <li class="main-info">
+          <img class="my-photo" src="{% static 'img/my_photo.png' %}" alt="Моя фотография">
+        </li>
+        <li class="main-info">
+          <h3 class="h3">
+            Сергей Суханов
+          </h3>
+          <ul class="info-iteams">
+            <li class="info-iteam"> Учусь по немногу: </li>
+            <li class="info-iteam"> HTML5 - самостоятельное изучение </li>
+            <li class="info-iteam"> CSS - самосттоятельное изучение </li>
+            <li class="info-iteam"> Python - Яндекс.Практикум </li>
+            <li class="info-iteam"> Django - Яндекс.Практикум </li>
+            <li class="info-iteam"> Прочее по запросу</li>
+          </ul>
+      </ul>
+    </div>
+
+    <!--it's link to me-->
+    <div class="link-me">
+      Интересные ссылки:
+      <ul class="my-links">
+        <li class="my-link">
+          <a class="my-hh" href="https://github.com/SergSukh/">My GitHub</a>
+        </li>
+        <li class="my-link">
+          <a class="my-hh" href="#">My HH.ru</a>
+        </li>
+        <li class="my-link">
+          <a class="my-email" href="mailto:s9626265386@yandex.ru">Write E-mail: SergSukhanov</a>
+        </li>
+        <li class="my-link">
+          <a class="my-tel" href="tel:+79626265386">Call Me: +7 962 626 53 86</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+{% endblock %} 

@@ -1,0 +1,39 @@
+{% load static %}
+<header>
+  <nav class="navbar navbar-light" style="background-color: lightskyblue">
+    <ul class="container">
+      <li class="nav-item">
+        <a class="navbar-brand" href="{% url 'posts:index' %}">
+          <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+          <span style="color:red">Ya</span>tube</a>
+        </a>
+      </li>
+      <li class="nav-item my-info">
+        <a class="my-form {% if request.resolver_match.view_name  == 'about:author' %}active{% endif %}" href="{% url 'about:author' %}">Об авторе</a>
+        <a class="my-form {% if request.resolver_match.view_name  == 'about:tech' %}active{% endif %}" href="{% url 'about:tech' %}">О технологиях </a>
+      </li>
+      <li class="nav-item">
+        <div class="nav-authentificated">
+          {% if user.is_authenticated %}
+          <li class="nav-item"> 
+            <a class="user-authentificated {% if request.resolver_match.view_name  == 'posts:post_create' %}active{% endif %}" href="{% url 'posts:post_create' %}">Новая запись</a>
+          </li>
+          <li class="nav-item"> 
+            <a class="user-authentificated {% if request.resolver_match.view_name  == 'password_reset' %}active{% endif %}" href="{% url 'password_reset' %}">Изменить пароль</a>
+          </li>
+          <li class="nav-item"> 
+            <a class="user-authentificated {% if request.resolver_match.view_name  == 'users:logout' %}active{% endif %}" href="{% url 'users:logout' %}">Выйти</a>
+          </li>
+          <li class="nav-user">
+            Пользователь:  {{ user.username }}
+          <li>
+          
+          {% else %}
+            <a class="user-authentificated {% if request.resolver_match.view_name  == 'users:login' %}active{% endif %}" href="{% url 'users:login' %}"> Войти </a>
+            <a class="user-authentificated {% if request.resolver_match.view_name  == 'users:signup' %}active{% endif %}" href="{% url 'users:signup' %}"> Зарегистрироваться </a>
+          {% endif %}
+        </div>
+      </li>
+    </ul>
+  </nav>      
+</header>
