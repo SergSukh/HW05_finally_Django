@@ -1,3 +1,4 @@
+from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -79,3 +80,28 @@ class Comment(models.Model):
 
     def __str__(self) -> str:
         return self.text[:15]
+
+
+class Follow(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete = models.CASCADE,
+        related_name = 'follower'
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete = models.CASCADE,
+        related_name = 'following'
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                name="unique_following",
+                fields=["user", "author"]
+            ),
+            models.CheckConstraint(
+                name="user_cant_subscribe_yourself",
+                check=~models.Q(user=models.F("author")),
+            ),
+        ]

@@ -5,7 +5,7 @@ from django.conf import settings
 from django.views.decorators.cache import cache_page
 
 from .forms import PostForm, CommentForm
-from .models import Post, Group, User, Comment
+from .models import Post, Group, User, Comment, Follow
 
 
 def pages(request, post_list):
@@ -36,10 +36,18 @@ def group_post(request, slug):
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
+    user=request.user
     post_list = author.posts.all()
+    if request.user.is_authenticated and request.user != author:
+        following = user.follower.filter(
+            author=author
+        ).exists()
+    else:
+        following = False
     context = {
         'post_count': post_list.count(),
         'author': author,
+        'following': following,
         'page_obj': pages(request, post_list),
     }
     return render(request, 'posts/profile.html', context)
@@ -99,3 +107,28 @@ def add_comment(request, post_id):
         comment.post = post
         comment.save()
     return redirect('posts:post_detail', post_id=post_id)
+
+
+@login_required
+def follow_index(request):
+    post_list = Post.objects.filter(author__following__user=request.user)
+    context = {
+        'page_obj': pages(request, post_list),
+    }
+    return render(request, 'posts/follow.html', context)
+
+
+@login_required
+def profile_follow(request, username):
+    author = get_object_or_404(User, username=username)
+    user = request.user
+    Follow.objects.get_or_create(user=user, author=author)
+    return render(request, 'posts/index.html')
+
+
+@login_required
+def profile_unfollow(request, username):
+    user = request.user
+    author = get_object_or_404(User, username=username)
+    Follow.objects.filter(user=user, author=author).delete()
+    return render(request, 'posts/index.html')

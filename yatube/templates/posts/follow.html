@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+  {% load thumbnail %}
+
+  {% block title %} 
+    Последние обновления от Интересных авторов:
+  {% endblock title %}
+
+  {% block content %}
+    <div class="container py-5">     
+      <h1>Последние посты от интересных авторов:</h1>
+      {% if page_obj.has_other_pages %}
+        {% include 'posts/includes/paginator.html' %}
+      {% endif %}
+      {% include 'posts/includes/switcher.html' %}
+
+      <article>
+        {% for post in page_obj %}
+          <ul>
+            <li>
+              Автор: 
+              <a href="{% url 'posts:profile' post.author %}">{{ post.author.get_full_name }}</a>
+            </li>
+            <li>
+              Дата публикации: {{ post.pub_date|date:"d E Y" }}
+            </li>
+          </ul>
+          {% thumbnail post.image "150x339" crop="top" upscale=True as im %}
+            <img class="card-img my-2" src="{{ im.url }}">
+          {% endthumbnail %}
+          <p>{{ post.text }}</p>   
+          {% if post.group %}
+          <a href="{% url 'posts:group_post' post.group %}">все записи группы: {{ post.group }}</a>
+          {% endif %}
+          {% if not forloop.last %}<hr>{% endif %}
+        {% endfor %}
+      </article>
+      {% if page_obj.has_other_pages %}
+        {% include 'posts/includes/paginator.html' %}
+      {% endif %}
+  </div> 
+  {% endblock %} 

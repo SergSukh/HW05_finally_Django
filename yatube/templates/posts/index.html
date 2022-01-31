@@ -12,6 +12,7 @@
       {% if page_obj.has_other_pages %}
         {% include 'posts/includes/paginator.html' %}
       {% endif %}
+      {% include 'posts/includes/switcher.html' %}
 
       {% cache 20 index_page %}
         <article>
