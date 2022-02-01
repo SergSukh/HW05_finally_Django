@@ -70,7 +70,8 @@ def post_detail(request, post_id):
 
 @login_required
 def post_create(request):
-    form = PostForm(request.POST or None)
+    form = PostForm(request.POST or None,
+                    files=request.FILES or None )
     if form.is_valid():
         post = form.save(commit=False)
         post.author = request.user
@@ -122,8 +123,9 @@ def follow_index(request):
 def profile_follow(request, username):
     author = get_object_or_404(User, username=username)
     user = request.user
-    Follow.objects.get_or_create(user=user, author=author)
-    return render(request, 'posts/index.html')
+    if author != user:
+        Follow.objects.get_or_create(user=user, author=author)
+    return render(request, 'posts/follow.html')
 
 
 @login_required

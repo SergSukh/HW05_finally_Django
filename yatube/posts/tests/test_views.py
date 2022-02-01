@@ -172,7 +172,7 @@ class PostViewTests(TestCase):
         }
         templates_pages_names = self.paginator_pages_names
         templates_pages_names.update(self.second_test_group)
-        post_case = Post.objects.get(id=post_count + 1)
+        post_case = Post.objects.first()
         for template, reverse_name in templates_pages_names.items():
             with self.subTest(reverse_name=reverse_name):
                 response = self.client.get(reverse_name)

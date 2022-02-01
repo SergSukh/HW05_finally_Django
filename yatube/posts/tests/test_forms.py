@@ -1,6 +1,5 @@
 import shutil
 import tempfile
-from urllib import response
 
 from django.shortcuts import get_object_or_404
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -74,7 +73,7 @@ class PostFormTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Post.objects.count(), post_count + 1)
-        new_post = Post.objects.order_by('pub_date').last()
+        new_post = Post.objects.first()
         self.assertEqual(new_post.text, form_data['text'])
         self.assertEqual(new_post.group, self.group)
         self.assertEqual(new_post.author, self.user)
@@ -113,9 +112,9 @@ class PostFormTests(TestCase):
             content_type='image/gif'
         )
         form_data = {
-            'text': 'Тестовый текст3',
-            'group': f'{self.group.pk}',
+            'text': 'Тестовый ТЕКСТ3',
             'image': uploaded,
+            'group': f'{self.group.pk}',
         }
         response = self.auth_client.post(
             reverse('posts:post_create'),
@@ -126,10 +125,10 @@ class PostFormTests(TestCase):
         self.assertEqual(Post.objects.count(), post_count + 1)
         self.assertTrue(
             Post.objects.filter(
-                text='Тестовый текст3',
+                text='Тестовый ТЕКСТ3',
                 author=self.user,
                 group=self.group.pk,
-                # image='posts/small.gif'
+                image='posts/small.gif'
             ).exists()
         )
 
