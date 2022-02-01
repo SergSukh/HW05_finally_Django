@@ -56,10 +56,10 @@ class FollowTests(TestCase):
     def test_user_follow_unfollow_other(self):
         create_url = reverse(
             'posts:profile_follow',
-            kwargs={'username': self.author.username,})
+            kwargs={'username': self.author.username, })
         delete_url = reverse(
             'posts:profile_unfollow',
-             kwargs={'username': self.author.username, })
+            kwargs={'username': self.author.username, })
         author_follow_count = self.author.following.count()
         user_follow_count = self.user.follower.count()
         """Создаем подписку и проверяем появление ее у автора и пользователя"""
@@ -81,13 +81,11 @@ class FollowTests(TestCase):
 
     def test_follow_index_with_correct_content(self):
         create_follow_url = reverse(
-                            'posts:profile_follow',
-                            kwargs={'username': self.author.username, 
-                            })
+            'posts:profile_follow',
+            kwargs={'username': self.author.username, })
         create_follow_url_2 = reverse(
-                                'posts:profile_follow',
-                                kwargs={'username': self.user.username,
-                                })
+            'posts:profile_follow',
+            kwargs={'username': self.user.username, })
         """Подписались на автора и на пользователя"""
         self.auth_client.get(create_follow_url)
         self.auth_client_2.get(create_follow_url_2)
