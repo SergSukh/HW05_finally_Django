@@ -1,4 +1,3 @@
-from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -85,13 +84,13 @@ class Comment(models.Model):
 class Follow(models.Model):
     user = models.ForeignKey(
         User,
-        on_delete = models.CASCADE,
-        related_name = 'follower'
+        on_delete=models.CASCADE,
+        related_name='follower'
     )
     author = models.ForeignKey(
         User,
-        on_delete = models.CASCADE,
-        related_name = 'following'
+        on_delete=models.CASCADE,
+        related_name='following'
     )
 
     class Meta:

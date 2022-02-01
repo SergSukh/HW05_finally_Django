@@ -2,10 +2,9 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from django.views.decorators.cache import cache_page
 
 from .forms import PostForm, CommentForm
-from .models import Post, Group, User, Comment, Follow
+from .models import Post, Group, User, Follow
 
 
 def pages(request, post_list):
@@ -36,7 +35,7 @@ def group_post(request, slug):
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
-    user=request.user
+    user = request.user
     post_list = author.posts.all()
     if request.user.is_authenticated and request.user != author:
         following = user.follower.filter(
@@ -71,7 +70,7 @@ def post_detail(request, post_id):
 @login_required
 def post_create(request):
     form = PostForm(request.POST or None,
-                    files=request.FILES or None )
+                    files=request.FILES or None)
     if form.is_valid():
         post = form.save(commit=False)
         post.author = request.user

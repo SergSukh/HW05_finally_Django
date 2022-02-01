@@ -8,7 +8,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 
-from posts.models import Group, Post, Comment
+from posts.models import Group, Post
 from .fixtures.constant_post import test_post_text, test_group
 
 User = get_user_model()
@@ -132,11 +132,11 @@ class PostFormTests(TestCase):
             ).exists()
         )
 
-
     def test_create_comment_guest(self):
         post = Post.objects.first()
         login_url = reverse('users:login')
-        create_url = reverse('posts:add_comment', kwargs={'post_id': (post.pk)})
+        create_url = reverse('posts:add_comment',
+                             kwargs={'post_id': (post.pk)})
         comment_count = post.comment.all().count()
         response = self.guest.post(
             (f'/posts/{post.id}/comment'),
@@ -160,5 +160,5 @@ class PostFormTests(TestCase):
             },
             follow=True
         )
-        self.assertEqual(post.comment.all().count(), comment_count+1)
+        self.assertEqual(post.comment.all().count(), comment_count + 1)
         self.assertRedirects(response, (f'/posts/{post.id}/'))

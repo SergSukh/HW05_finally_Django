@@ -9,7 +9,6 @@ from django.test import Client, TestCase, override_settings
 from django.conf import settings
 
 from posts.models import Group, Post
-from yatube.settings import POSTS_IN_PAGE
 from .fixtures import constant_post
 
 User = get_user_model()
@@ -64,7 +63,7 @@ class PostViewTests(TestCase):
         response = self.client.get('/')
         post_count = Post.objects.all().count()
         Post.objects.all().delete()
-        """Проверили, старое количество постов сохранили, сейчас в базе пусто"""
+        """Проверили, старое количество постов, сейчас в базе пусто"""
         self.assertNotEqual(Post.objects.all().count(), post_count)
         """Проверили, в кэше данные остались"""
         post_index_count = len(response.context['page_obj'])
