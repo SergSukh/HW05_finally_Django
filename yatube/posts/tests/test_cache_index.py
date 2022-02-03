@@ -63,7 +63,6 @@ class PostViewTests(TestCase):
         self.client = Client()
         self.client.force_login(self.user)
 
-
     def test_cache_index_create_post(self):
         cache.clear()
         self.client.get(reverse(self.page))

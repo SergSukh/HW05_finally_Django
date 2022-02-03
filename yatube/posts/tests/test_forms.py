@@ -154,7 +154,9 @@ class PostFormTests(TestCase):
         post = Post.objects.first()
         create_url = reverse('posts:add_comment',
                              kwargs={'post_id': (post.pk), })
-        view_url = reverse('posts:post_detail', kwargs={'post_id': (post.pk), })
+        view_url = reverse(
+            'posts:post_detail',
+            kwargs={'post_id': (post.pk), })
         comment_count = post.comment.all().count()
         response = self.auth_client.post(
             create_url,

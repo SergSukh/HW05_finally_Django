@@ -85,7 +85,6 @@ class FollowTests(TestCase):
                          (user_follow_count - user_follow_count_new))
         self.assertEqual(user_follow_count_new + 1, user_follow_count)
 
-    
     def test_follow_index_with_correct_content(self):
         create_follow_url = reverse(
             'posts:profile_follow',
@@ -109,6 +108,7 @@ class FollowTests(TestCase):
         response = self.auth_client.get(self.url)
         form_field = response.context.get('page_obj')
         self.assertIn(post_case, form_field)
+
 
 def test_follow_index_not_author_content(self):
         """Разместили ПОСТ от имени автора, подписка уже есть"""

@@ -39,7 +39,8 @@ def profile(request, username):
     post_list = author.posts.all()
     if request.user.is_authenticated:
         following = author.following.filter(user=user).exists()
-    else: following = False
+    else:
+        following = False
     context = {
         'post_count': post_list.count(),
         'author': author,

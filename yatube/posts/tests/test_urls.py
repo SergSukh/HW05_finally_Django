@@ -70,7 +70,7 @@ class PostURLTests(TestCase):
         cls.url_name_guest_close = {
             '/create/': 'posts/create_post.html',
             f'/posts/{cls.post.pk}/comment/': f'/posts/{cls.post.pk}/',
-            f'/follow/': 'posts/follow.html',
+            '/follow/': 'posts/follow.html',
             f'/profile/{cls.user_2}/follow/': 'posts/follow.html',
             f'/profile/{cls.user_2}/unfollow/': 'posts/index.html',
         }
@@ -108,7 +108,7 @@ class PostURLTests(TestCase):
                     if response.status_code == 200:
                         self.assertTemplateUsed(response, template)
                     else:
-                        self.assertEquals(response.status_code , 302)
+                        self.assertEquals(response.status_code, 302)
                         self.assertRedirects(response, template)
             for address, template in closed_url_names.items():
                 with self.subTest(address=address):
