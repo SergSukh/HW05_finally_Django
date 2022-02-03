@@ -124,6 +124,6 @@ class FollowTests(TestCase):
         )
         post_case = self.author.posts.first()
         """Зашли в подписки, нового ПОСТа нет"""
-        response = self.auth_client_2.get(self.url)
+        response = self.auth_client.get(self.url)
         form_field = response.context.get('page_obj')
         self.assertNotIn(post_case, form_field)
