@@ -113,7 +113,7 @@ class PostViewTests(TestCase):
         self.assertEqual(response.context['post'].author, self.user)
         self.assertEqual(response.context['post'].image, 'posts/small.gif')
         self.client.post(
-            (f'/posts/{self.post[0].id}/comment'),
+            (f'/posts/{self.post[0].id}/comment/'),
             data={
                 'text': 'Тестовый комментарий',
             },

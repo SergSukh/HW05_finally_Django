@@ -139,7 +139,7 @@ class PostFormTests(TestCase):
                              kwargs={'post_id': (post.pk)})
         comment_count = post.comment.all().count()
         response = self.guest.post(
-            (f'/posts/{post.id}/comment'),
+            create_url,
             data={
                 'text': 'Тестовый комментарий',
             },
@@ -152,13 +152,19 @@ class PostFormTests(TestCase):
 
     def test_create_comment_auth_user(self):
         post = Post.objects.first()
+        create_url = reverse('posts:add_comment',
+                             kwargs={'post_id': (post.pk), })
+        view_url = reverse('posts:post_detail', kwargs={'post_id': (post.pk), })
         comment_count = post.comment.all().count()
         response = self.auth_client.post(
-            (f'/posts/{post.id}/comment'),
+            create_url,
             data={
                 'text': 'Тестовый комментарий',
             },
             follow=True
         )
+        comment_case = post.comment.first()
         self.assertEqual(post.comment.all().count(), comment_count + 1)
-        self.assertRedirects(response, (f'/posts/{post.id}/'))
+        self.assertRedirects(response, (view_url))
+        response = self.auth_client.get(view_url)
+        self.assertIn(comment_case, response.context.get('comments'))

@@ -7,3 +7,5 @@ test_group = {
     'slug': 'Test-group',
     'description': 'Тестовое описание',
 }
+
+test_comment = 'Тестовый комментарий'

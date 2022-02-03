@@ -1,8 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
+from django.core.cache import cache
 
-from posts.models import Post, Group
-from .fixtures.constant_post import test_post_text, test_group
+from posts.models import Post, Group, Comment, Follow
+from .fixtures.constant_post import test_post_text, test_group, test_comment
 
 User = get_user_model()
 
@@ -30,16 +31,28 @@ class PostURLTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = User.objects.create_user(username='author')
+        cls.author = User.objects.create_user(username='author')
+        cls.user = User.objects.create_user(username='HasNoName')
+        cls.user_2 = User.objects.create_user(username='SameBody')
         cls.group = Group.objects.create(
             title=test_group['title'],
             slug=test_group['slug'],
             description=test_group['description'],
         )
         cls.post = Post.objects.create(
-            author=cls.user,
+            author=cls.author,
             text=test_post_text,
             group=cls.group,
+        )
+        cls.comment = Comment.objects.create(
+            post_id=cls.post.pk,
+            author=cls.author,
+            text=test_comment,
+
+        )
+        cls.follow = Follow.objects.create(
+            user=cls.user_2,
+            author=cls.author,
         )
         # Список URL адресов и шаблонов для тестирования:
 
@@ -56,11 +69,15 @@ class PostURLTests(TestCase):
 
         cls.url_name_guest_close = {
             '/create/': 'posts/create_post.html',
+            f'/posts/{cls.post.pk}/comment/': f'/posts/{cls.post.pk}/',
+            f'/follow/': 'posts/follow.html',
+            f'/profile/{cls.user_2}/follow/': 'posts/follow.html',
+            f'/profile/{cls.user_2}/unfollow/': 'posts/index.html',
         }
 
     def setUp(self):
         self.client = Client()
-        self.client.force_login(self.user)
+        self.client.force_login(self.author)
 
     def test_urls_uses_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
@@ -72,7 +89,6 @@ class PostURLTests(TestCase):
                 templates_url_names.update(self.url_name_guest)
                 closed_url_names = {}
             elif user == 'HasNoName':
-                self.user = User.objects.create_user(username='HasNoName')
                 self.client = Client()
                 self.client.force_login(self.user)
                 templates_url_names = {}
@@ -84,11 +100,16 @@ class PostURLTests(TestCase):
                 templates_url_names = self.url_name_guest
                 closed_url_names = self.url_name_guest_close.copy()
                 closed_url_names.update(self.url_name_user_close)
+                cache.clear()
             for address, template in templates_url_names.items():
                 with self.subTest(address=address):
                     response = self.client.get(address)
                     self.assertNotEqual(response.status_code, 404)
-                    self.assertTemplateUsed(response, template)
+                    if response.status_code == 200:
+                        self.assertTemplateUsed(response, template)
+                    else:
+                        self.assertEquals(response.status_code , 302)
+                        self.assertRedirects(response, template)
             for address, template in closed_url_names.items():
                 with self.subTest(address=address):
                     response = self.client.get(address)

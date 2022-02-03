@@ -7,6 +7,8 @@ from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 from django.conf import settings
+from django.urls import reverse
+from django.core.cache import cache
 
 from posts.models import Group, Post
 from .fixtures import constant_post
@@ -49,6 +51,8 @@ class PostViewTests(TestCase):
                      ) for i in range(1, post_in_page)
                 )
         cls.post = Post.objects.bulk_create(post)
+        cls.url = '/'
+        cls.page = ('posts:index')
 
     @classmethod
     def tearDownClass(cls):
@@ -59,12 +63,24 @@ class PostViewTests(TestCase):
         self.client = Client()
         self.client.force_login(self.user)
 
-    def test_cash_index(self):
-        response = self.client.get('/')
-        post_count = Post.objects.all().count()
-        Post.objects.all().delete()
-        """Проверили, старое количество постов, сейчас в базе пусто"""
-        self.assertNotEqual(Post.objects.all().count(), post_count)
+
+    def test_cache_index_create_post(self):
+        cache.clear()
+        self.client.get(reverse(self.page))
+        form_data = {
+            'text': 'Тест для КЭШ',
+            'group': f'{self.group.pk}',
+        }
+        self.client.post(
+            reverse('posts:post_create'),
+            data=form_data,
+            follow=True
+        )
+        post_case = Post.objects.first()
+        """Проверили, что поста на странице нет"""
+        response_1 = self.client.get(reverse(self.page))
+        self.assertNotIn(post_case.text, response_1.content.decode())
         """Проверили, в кэше данные остались"""
-        post_index_count = len(response.context['page_obj'])
-        self.assertEqual(post_index_count, post_count)
+        cache.clear()
+        response_2 = self.client.get(reverse(self.page))
+        self.assertIn(post_case, response_2.context.get('page_obj'))
