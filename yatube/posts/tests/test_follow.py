@@ -109,8 +109,7 @@ class FollowTests(TestCase):
         form_field = response.context.get('page_obj')
         self.assertIn(post_case, form_field)
 
-
-def test_follow_index_not_author_content(self):
+    def test_follow_index_not_author_content(self):
         """Разместили ПОСТ от имени автора, подписка уже есть"""
         form_data = {
             'text': 'Тестовый ПОСТ2',
