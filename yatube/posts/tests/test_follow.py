@@ -33,7 +33,6 @@ class FollowTests(TestCase):
                      ) for i in range(1, post_in_page * 2)
                 )
         cls.post = Post.objects.bulk_create(post)
-        cls.follow = Follow.objects.create(user=cls.user_2, author=cls.author)
         cls.url = '/follow/'
 
     def setUp(self):
@@ -76,6 +75,7 @@ class FollowTests(TestCase):
             'posts:profile_unfollow',
             kwargs={'username': self.author.username, })
         """Проверим, что пользователь может отписаться"""
+        Follow.objects.create(user=self.user_2, author=self.author)
         user_follow_count = self.user_2.follower.count()
         author_follow_count = self.author.following.count()
         self.auth_client_2.get(delete_url)
@@ -86,22 +86,11 @@ class FollowTests(TestCase):
         self.assertEqual(user_follow_count_new + 1, user_follow_count)
 
     def test_follow_index_with_correct_content(self):
-        create_follow_url = reverse(
-            'posts:profile_follow',
-            kwargs={'username': self.author.username, })
-        """Подписались на автора и на пользователя"""
-        self.auth_client.get(create_follow_url)
+        Follow.objects.create(user=self.user, author=self.author)
         """Разместили ПОСТ от имени автора"""
-        form_data = {
-            'text': 'Тестовый ПОСТ2',
-            'group': f'{self.group.pk}',
-        }
-        self.author_user = Client()
-        self.author_user.force_login(self.author)
-        self.author_user.post(
-            reverse('posts:post_create'),
-            data=form_data,
-            follow=True
+        Post.objects.create(
+            author=self.author,
+            text='Тестовый ПОСТ2'
         )
         post_case = self.author.posts.first()
         """Зашли в подписки и увидели новый ПОСТ там где он должен быть"""
@@ -110,17 +99,12 @@ class FollowTests(TestCase):
         self.assertIn(post_case, form_field)
 
     def test_follow_index_not_author_content(self):
+        """Подписка на автора от другого пользователя"""
+        Follow.objects.create(user=self.user_2, author=self.author)
         """Разместили ПОСТ от имени автора, подписка уже есть"""
-        form_data = {
-            'text': 'Тестовый ПОСТ2',
-            'group': f'{self.group.pk}',
-        }
-        self.author_user = Client()
-        self.author_user.force_login(self.author)
-        self.author_user.post(
-            reverse('posts:post_create'),
-            data=form_data,
-            follow=True
+        Post.objects.create(
+            author=self.author,
+            text='Тестовый ПОСТ2'
         )
         post_case = self.author.posts.first()
         """Зашли в подписки, нового ПОСТа нет"""
