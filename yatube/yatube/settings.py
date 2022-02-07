@@ -18,6 +18,8 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '[::1]',
     'testserver',
+    'SergSukh.pythonanywhere.com',
+    'www.SergSukh.pythonanywhere.com',
 ]
 
 
@@ -36,8 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sorl.thumbnail',
     'debug_toolbar',
-    'SergSukh.pythonanywhere.com',
-    'www.SergSukh.pythonanywhere.com',
 ]
 
 MIDDLEWARE = [
