@@ -3,26 +3,90 @@
 {% block title %}Об авторе проекта{% endblock %}
 {% block content %}
   <div class="container">
-    <h1 class="h1">Привет, я автор</h1>
+    <h1 class="h1">Не много обо мне...</h1>
     
     <!--it's block about me-->
     <div class="main">
+      <h3 class="h3">
+        Сергей Суханов
+      </h3>
       <ul class="main-row">
         <li class="main-info">
-          <img class="my-photo" src="{% static 'img/my_photo.png' %}" alt="Моя фотография">
+          <ul class="info-iteams">
+            <li class="info-iteam">
+              <div class="main-iteams">
+                <img class="my-photo" src="{% static 'img/my_photo.png' %}" alt="Моя фотография">
+              </div>
+            </li>
+            <li class="info-iteam">Родился: <b>27 октября 1974г. Саратов</b></li>
+            <li class="info-iteam">
+              <ul class="info-iteam">
+                <li class="info-iteam">Образование:</li>
+                <li class="info-iteam">
+                  <ul>
+                    <li class="info-iteam"><b>Высшее. Инженер-Экономист. СГТУ</b></li>
+                  </ul>
+                </li>
+                <li class="info-iteam">Дополнительное образование:</li>
+                  <ul>
+                    <li class="info-iteam"> <b>Python-Developer. YandexPracticum</b></li>
+                  </ul>
+                <li class="info-iteam"> <b>Повышение квалификации:</b></li>
+                <li class="info-iteam">
+                  <ul>
+                    <li class="info-iteam">- Навыки проведения переговоров</li>
+                    <li class="info-iteam">- Поиск, набор, обучение и сотивация персонала</li>
+                    <li class="info-iteam">- Планирование, организация работы подразделения</li>
+                  </ul>
+                  <li class="info-iteam"> <b>Хобби: Рыбалка, путешествия на машине</b></li>
+                </li>
+              </ul>
+          </ul>
         </li>
         <li class="main-info">
-          <h3 class="h3">
-            Сергей Суханов
-          </h3>
           <ul class="info-iteams">
-            <li class="info-iteam"> Учусь по немногу: </li>
-            <li class="info-iteam"> HTML5 - самостоятельное изучение </li>
-            <li class="info-iteam"> CSS - самосттоятельное изучение </li>
-            <li class="info-iteam"> Python - Яндекс.Практикум </li>
-            <li class="info-iteam"> Django - Яндекс.Практикум </li>
-            <li class="info-iteam"> Прочее по запросу</li>
+            <li class="info-iteam"> <b><u>Изучил:</u></b></li>
+            <li class="info-iteam"> <b>Самостоятельно:</b></li>
+            <li class="info-iteam"> HTML:5 - базовая верстка </li>
+            <li class="info-iteam"> CSS - базовый, планирую изучить адаптив</li>
+            <li class="info-iteam"> Figma - базовая для Фронтенда</li>
+            <li class="info-iteam"> <b>YandexPracticum:</b></li>
+            <li class="info-iteam"> Python - базовый 30 ч.</li>
+            <li class="info-iteam"> SQL - основы 20 ч</li>
+            <li class="info-iteam"> ООП - основы 10 ч</li>
+            <li class="info-iteam"> GitHub - 10 ч</li>
+            <li class="info-iteam"> Django - 30 ч. </li>
+            <li class="info-iteam"> Django MPTT - дополнительно</li>
+            <li class="info-iteam"> Тестирование - 20ч</li>
+            <li class="info-iteam"> DRF и Rest API - 20ч</li>
+            <li class="info-iteam"> Алгоритмы и структура данных - 60ч</li>
+            <li class="info-iteam"> Инфраструктура бэкенд-разработки</li>
+            <li class="info-iteam"> <b>В планах:</b></li>
+            <li class="info-iteam"> - Верстка- адаптив</li>
+            <li class="info-iteam"> - Node.js</li>
+            <li class="info-iteam"> - Go</li>
           </ul>
+        <li class="main-info">
+          <ul class="info-iteams">
+            <li class="info-iteam"> <b><u>Использовал в этом проекте:</u></b></li>
+            <li class="info-iteam"> <b>Верстка:</b></li>
+            <li class="info-iteam"> HTML:5 - верстка для бэкенда</li>
+            <li class="info-iteam"> CSS - bootstrap.css.map + style.css</li>
+            <li class="info-iteam"> DevTools - контроль</li>
+            <li class="info-iteam"> <b>Бэкенд:</b></li>
+            <li class="info-iteam"> Django==4.0.5.</li>
+            <li class="info-iteam"> Pytest==6.2.4.</li>
+            <li class="info-iteam"> django-debug-toolbar==3.4.0</li>
+            <li class="info-iteam"> <b>Инструменты и среда:</b></li>
+            <li class="info-iteam"> Репозиторий - GitHub</li>
+            <li class="info-iteam"> Размещение - YandexCloud</li>
+            <li class="info-iteam"> Сервер - Nginx</li>
+            <li class="info-iteam"> Взаимодействие - WSGI Gunicorn</li>
+            <li class="info-iteam"> Контроль - демон Systemd</li>
+            <li class="info-iteam"> Kодил - VSCod</li>
+            <li class="info-iteam"> Работа с API - Postman</li>
+          </ul>
+        </li>
       </ul>
     </div>
 

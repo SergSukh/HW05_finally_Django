@@ -2,8 +2,8 @@
 {% block title %}Технологии{% endblock %}
 {% block content %}
 {% comment %} Колонки с отступом сверху и снизу {% endcomment %}
-<div class="row">
-  <h1>Вот что я умею</h1>
+<div class="row container center-top">
+  <h1>Побольше о технологиях</h1>
   {% comment %}
     Боковой блок со списком технологий 
     Займет всю ширину блока на мобильном
@@ -13,10 +13,19 @@
     <h3 class="h3">BackEnd:</h3>
     <ul class="list-group list-group-flush">
       <li class="list-group-item">
-        Python
+        Python, сейчас использую версию 3.10.4
       </li>
       <li class="list-group-item">
-        Django
+        Django, проект построен на версии 4.0.5.
+      </li>
+      <li class="list-group-item">
+        Тестирование - pytest==6.2.4, pytest-django==4.4.0, pytest-pythonpath==0.7.3
+      </li>
+      <li class="list-group-item">
+        Поддержка медиа - Pillow==9.0.0
+      </li>
+      <li class="list-group-item">
+        SQL - тестовая версия MySQL, на сервере PostgreSQL
       </li>
     </ul>
   </aside>
