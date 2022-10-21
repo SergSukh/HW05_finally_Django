@@ -24,7 +24,3 @@
 7. ГОТОВО! можно запустить проект локально командой:
   (Windows) $python manage.py runserver
   (Mac or Linux) $python3 manage.py runserver
-### А можно зайти на сайт:
-  www.sukhanov.sytes.net
-
-[![CI](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml)
